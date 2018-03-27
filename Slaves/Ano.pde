@@ -1,7 +1,7 @@
 class Ano {
 
   int ano, traficados, mortos;
-  Bola bolaT = new Bola(), bolaM = new Bola();
+  Bola bolaT = new Bola('t'), bolaM = new Bola('m');
 
   Ano(int a, int t, int m) {
     this.ano = a;
@@ -24,7 +24,7 @@ class Ano {
     rotate(angulo);
     fill(255,0,0);
     stroke(255,0,0);
-    ellipse(bolaM.posX,bolaM.posY, bolaM.diametro, bolaM.diametro);
+    bolaM.desenhaBola();
     line(minXY * cos(angulo), minXY * sin(angulo), compLinhaMortos * cos(angulo), compLinhaMortos * sin(angulo));
     fill(0);
     stroke(0);
