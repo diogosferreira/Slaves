@@ -35,11 +35,11 @@ class Ano {
 
   void desenhaMortosTraficadosDF(int minXY, int maxXY, float angulo) {
 
-    float compLinhaMortos = map(mortos, 0, 112000, minXY, maxXY);
+    float compLinhaMortos = map(mortos, 0, 110000, minXY, maxXY);
     bolaM.posX = compLinhaMortos * cos(angulo);
     bolaM.posY = compLinhaMortos * sin(angulo);
     
-    float compLinhaTraficados = map(traficados, 0, 112000, minXY, maxXY);
+    float compLinhaTraficados = map(traficados, 0, 110000, minXY, maxXY);
     bolaT.posX = compLinhaTraficados * cos(angulo);
     bolaT.posY = compLinhaTraficados * sin(angulo);
 

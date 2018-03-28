@@ -17,8 +17,8 @@ void setup () {
   preencheAnos();
   
   grelhaReferencia();
-  desenhaDentroFora();
-  //desenhaForaDentro();
+  //desenhaDentroFora();
+  desenhaForaDentro();
 
 
   
