@@ -5,36 +5,49 @@ float anguloFinalGrafico = PI + HALF_PI - QUARTER_PI/2; //TWO_PI - HALF_PI;
 int minXY = 150;
 int maxXY = 350;
 int ultimoAnoMostrado = 0;
+PVector vectorMouse = new PVector();
+PVector vectorCentro = new PVector();
 
 void setup () {
 
   translate(width/2, height/2);
 
-  //size(500, 500);
+  //size(800, 800);
   fullScreen();
+  smooth();
   background(230);
 
   tabela1 = loadTable("tratamento_dados/tabela_1.csv", "header");
   preencheAnos();
-  
+  vectorCentro.set(width/2, height/2);
+
   grelhaReferencia();
-  //desenhaDentroFora();
   desenhaForaDentro();
 
-
-  
-  debug();
-}
-
-void draw(){
-  translate(width/2,height/2);
-  
-  for (Ano ano : anos.values()){
-    ano.hoverBolaT(mouseX - width/2, mouseY - height/2);
+  for (Ano ano : anos.values()) {
+    ano.inicializaVector();
   }  
+
 }
 
-void debug() {
+void draw() {
+  translate(width/2, height/2);
+  
+  calculaVectorMouse(mouseX, mouseY);
+
+  for (Ano ano : anos.values()) {
+    ano.hoverVector(vectorMouse);
+  }
+}
+
+
+//
+//  VECTOR MOUSE
+//
+
+void calculaVectorMouse(float mX, float mY){
+  vectorMouse.set(mX, mY);
+  vectorMouse.sub(vectorCentro);
 }
 
 
@@ -51,7 +64,7 @@ void grelhaReferencia() {
     stroke(210);
     arc(0, 0, diametro, diametro, anguloInicialGrafico - PI/50, anguloFinalGrafico + PI/50);
   }
-  
+
   int[] raios2 = {10000, 50000, 100000};
   for (int r : raios2) {
     float diametro = 2 * map(r, 0, 110000, maxXY, minXY);
@@ -62,10 +75,9 @@ void grelhaReferencia() {
     translate(0, -diametro/2 + 10);
     textAlign(CENTER);
     fill(180);
-    text(r, 0,0);
+    text(r, 0, 0);
     popMatrix();
   }
-  
 }
 
 
@@ -92,38 +104,8 @@ void desenhaForaDentro() {
       text(ano.ano, 0, -20);
       popMatrix();
     }
-    
+
     ano.desenhaMortosTraficadosFD(minXY, maxXY, angulo);
-    angulo += incAngulo;
-  }
-}
-
-
-//
-//  DESENHAR DENTRO FORA
-//
-
-void desenhaDentroFora() {
-  float angulo = anguloInicialGrafico;
-  float incAngulo = (anguloFinalGrafico - anguloInicialGrafico) / anos.size();
-
-  for (Ano ano : anos.values()) {
-    ano.desenhaMortosTraficadosDF(minXY, maxXY, angulo);
-
-    // LINHAS REFERENCIA ANOS
-    if (ano.ano == 1566 || ano.ano % 50 == 0 || ano.ano % 75 == 0 || ano.ano % 25 == 0 || ano.ano == 1866) {
-      stroke(180);
-      fill(180);
-      textSize(12);
-      textAlign(CENTER);
-      line(minXY * cos(angulo), minXY * sin(angulo), maxXY * cos(angulo), maxXY * sin(angulo));
-      pushMatrix();
-      translate(maxXY * cos(angulo), maxXY * sin(angulo));
-      rotate(angulo + HALF_PI);
-      text(ano.ano, 0, -10);
-      popMatrix();
-    }
-
     angulo += incAngulo;
   }
 }
@@ -166,5 +148,56 @@ void preencheAnos() {
     int traficados = linha.getInt("traficados");
     int mortos = linha.getInt("mortos");
     anos.put(ano, new Ano(ano, traficados, mortos));
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//
+// OLD
+//
+
+
+
+//
+//  DESENHAR DENTRO FORA
+//
+
+void desenhaDentroFora() {
+  float angulo = anguloInicialGrafico;
+  float incAngulo = (anguloFinalGrafico - anguloInicialGrafico) / anos.size();
+
+  for (Ano ano : anos.values()) {
+    ano.desenhaMortosTraficadosDF(minXY, maxXY, angulo);
+
+    // LINHAS REFERENCIA ANOS
+    if (ano.ano == 1566 || ano.ano % 50 == 0 || ano.ano % 75 == 0 || ano.ano % 25 == 0 || ano.ano == 1866) {
+      stroke(180);
+      fill(180);
+      textSize(12);
+      textAlign(CENTER);
+      line(minXY * cos(angulo), minXY * sin(angulo), maxXY * cos(angulo), maxXY * sin(angulo));
+      pushMatrix();
+      translate(maxXY * cos(angulo), maxXY * sin(angulo));
+      rotate(angulo + HALF_PI);
+      text(ano.ano, 0, -10);
+      popMatrix();
+    }
+
+    angulo += incAngulo;
   }
 }

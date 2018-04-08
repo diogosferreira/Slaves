@@ -3,6 +3,7 @@ class Ano {
   int ano, traficados, mortos;
   Bola bolaT = new Bola('t'), bolaM = new Bola('m');
   float angulo;
+  PVector vector = new PVector();
 
   Ano(int a, int t, int m) {
     this.ano = a;
@@ -10,11 +11,19 @@ class Ano {
     this.mortos = m;
   }
 
-  void hoverBolaT(int mX, int mY) {
-    float d = dist(mX, mY, this.bolaT.posX, this.bolaT.posY);
-    if (d < 5 && ultimoAnoMostrado != this.ano) {
+
+
+
+
+  void hoverVector(PVector mV) {
+    if (PVector.angleBetween(mV, this.vector) < 0.01 && mV.mag() < maxXY && mV.mag() > minXY) {
       mostraInfoTM();
     }
+  }
+
+  void inicializaVector() {
+    vector.set(minXY * cos(angulo), minXY * sin(angulo));
+    stroke(0, 255, 0);
   }
 
   void mostraInfoTM() {
@@ -61,6 +70,38 @@ class Ano {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  //
+  //  OLD
+  //
+  
+  
+  
+  
+  
+  
+  
+  void hoverBolaT(int mX, int mY) {
+    float d = dist(mX, mY, this.bolaT.posX, this.bolaT.posY);
+    if (d < 5 && ultimoAnoMostrado != this.ano) {
+      mostraInfoTM();
+    }
+  }
 
   void desenhaMortosTraficadosDF(int minXY, int maxXY, float angulo) {
 
