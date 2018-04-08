@@ -9,19 +9,20 @@ class Ano {
     this.mortos = m;
   }
 
-  void hover(int mX, int mY) {
+  void mostraInfoTM() {
+    background(230);
+    grelhaReferencia();
+    desenhaForaDentro();
+    text(this.ano, 0, -20);
+    text("Nº Pessoas Traficadas: " + this.traficados, 0, 0);
+    text("Nº Pessoas Mortas / Desaparecidas : " + this.mortos, 0, 20);
+    ultimoAnoMostrado = this.ano;
+  }
+
+  void hoverBolaT(int mX, int mY) {
     float d = dist(mX, mY, this.bolaT.posX, this.bolaT.posY);
     if (d < 5 && ultimoAnoMostrado != this.ano) {
-      pushMatrix();
-      translate(width/2, height/2);
-      background(230);
-      grelhaReferencia();
-      desenhaForaDentro();
-      text(this.ano, 0, -20);
-      text("Nº Pessoas Traficadas: " + this.traficados, 0, 0);
-      text("Nº Pessoas Mortas / Desaparecidas : " + this.mortos, 0, 20);
-      popMatrix();
-      ultimoAnoMostrado = this.ano;
+      mostraInfoTM();
     }
   }
 
@@ -34,7 +35,7 @@ class Ano {
     float compLinhaTraficados = map(traficados, 0, 110000, maxXY, minXY);
     bolaT.posX = compLinhaTraficados * cos(angulo);
     bolaT.posY = compLinhaTraficados * sin(angulo);
-
+    
     pushMatrix();
     strokeWeight(1.5);
     fill(255, 0, 0);

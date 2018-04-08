@@ -27,8 +27,14 @@ void setup () {
 }
 
 void draw(){
+  translate(width/2,height/2);
+  background(230);
+ // definirVectorMouse();
+  grelhaReferencia();
+  desenhaForaDentro();
+  
   for (Ano ano : anos.values()){
-    ano.hover(mouseX-width/2, mouseY-height/2);
+    ano.hoverBolaT(mouseX - width/2, mouseY - height/2);
   }  
 }
 
@@ -40,6 +46,7 @@ void debug() {
     }
   }
 }
+
 
 //
 //  LINHAS DE REFERÊNCIA
