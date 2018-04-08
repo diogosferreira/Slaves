@@ -2,8 +2,9 @@ Table tabela1;
 HashMap<Integer, Ano> anos = new HashMap<Integer, Ano>();
 float anguloInicialGrafico = - HALF_PI + QUARTER_PI/2; //-QUARTER_PI;
 float anguloFinalGrafico = PI + HALF_PI - QUARTER_PI/2;//TWO_PI - HALF_PI;
-int minXY = 100;
+int minXY = 150;
 int maxXY = 350;
+int ultimoAnoMostrado = 0;
 
 void setup () {
 
@@ -25,7 +26,19 @@ void setup () {
   debug();
 }
 
+void draw(){
+  for (Ano ano : anos.values()){
+    ano.hover(mouseX-width/2, mouseY-height/2);
+  }  
+}
+
 void debug() {
+  for (Ano ano : anos.values()){
+    if(ano.ano == 1566){
+      println(ano.bolaT.posX);
+      println(ano.bolaT.posY);
+    }
+  }
 }
 
 //
@@ -33,6 +46,7 @@ void debug() {
 //
 
 void grelhaReferencia() {
+  println("DESENHOU GRELHA");
   int[] raios = {20000, 30000, 40000, 60000, 70000, 80000, 90000, 110000};
   for (int r : raios) {
     float diametro = 2 * map(r, 0, 110000, maxXY, minXY);
