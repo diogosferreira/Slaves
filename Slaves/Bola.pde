@@ -8,11 +8,11 @@ class Bola {
     this.tipo = t;
   }
   
-  void desenhaBola(){
+  void desenhaBola(int o){
     if(tipo == 't'){
-      fill(0);
+      fill(0, o);
     } else {
-      fill(255,0,0);
+      fill(255,0,0, o);
     }
     ellipse(posX, posY, diametro, diametro);
   }

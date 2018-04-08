@@ -1,6 +1,6 @@
 class Ano {
 
-  int ano, traficados, mortos;
+  int ano, traficados, mortos, opacidade = 255;
   Bola bolaT = new Bola('t'), bolaM = new Bola('m');
   float angulo;
   PVector vector = new PVector();
@@ -16,8 +16,17 @@ class Ano {
 
 
   void hoverVector(PVector mV) {
-    if (PVector.angleBetween(mV, this.vector) < 0.01 && mV.mag() < maxXY && mV.mag() > minXY) {
-      mostraInfoTM();
+    if (mV.mag() < maxXY && mV.mag() > minXY) {
+      if (PVector.angleBetween(mV, this.vector) < 0.01) {
+        mostraInfoTM();
+        this.opacidade = 255;
+      } else {
+        this.opacidade = 50;
+      }
+    }
+
+    if (mV.mag() > maxXY || mV.mag() < minXY) {
+      this.opacidade = 255;
     }
   }
 
@@ -27,9 +36,7 @@ class Ano {
   }
 
   void mostraInfoTM() {
-    background(230);
-    grelhaReferencia();
-    desenhaForaDentro();
+    fill(0, 255);
     text(this.ano, 0, -20);
     text("Nº Pessoas Traficadas: " + this.traficados, 0, 0);
     text("Nº Pessoas Mortas / Desaparecidas : " + this.mortos, 0, 20);
@@ -50,13 +57,13 @@ class Ano {
 
     pushMatrix();
     strokeWeight(1.5);
-    fill(255, 0, 0);
-    stroke(255, 0, 0);
-    bolaM.desenhaBola();
+    fill(255, 0, 0, opacidade);
+    stroke(255, 0, 0, opacidade);
+    bolaM.desenhaBola(opacidade);
     line(maxXY * cos(angulo), maxXY * sin(angulo), compLinhaMortos * cos(angulo), compLinhaMortos * sin(angulo));
-    fill(0);
-    stroke(0);
-    bolaT.desenhaBola();
+    fill(0, opacidade);
+    stroke(0, opacidade);
+    bolaT.desenhaBola(opacidade);
     line(compLinhaMortos * cos(angulo), compLinhaMortos * sin(angulo), compLinhaTraficados * cos(angulo), compLinhaTraficados * sin(angulo));
     popMatrix();
   }
@@ -89,13 +96,13 @@ class Ano {
   //
   //  OLD
   //
-  
-  
-  
-  
-  
-  
-  
+
+
+
+
+
+
+
   void hoverBolaT(int mX, int mY) {
     float d = dist(mX, mY, this.bolaT.posX, this.bolaT.posY);
     if (d < 5 && ultimoAnoMostrado != this.ano) {
@@ -116,11 +123,11 @@ class Ano {
     pushMatrix();
     fill(255, 0, 0);
     stroke(255, 0, 0);
-    bolaM.desenhaBola();
+    bolaM.desenhaBola(opacidade);
     line(minXY * cos(angulo), minXY * sin(angulo), compLinhaMortos * cos(angulo), compLinhaMortos * sin(angulo));
     fill(0);
     stroke(0);
-    bolaT.desenhaBola();
+    bolaT.desenhaBola(opacidade);
     line(compLinhaMortos * cos(angulo), compLinhaMortos * sin(angulo), compLinhaTraficados * cos(angulo), compLinhaTraficados * sin(angulo));
     popMatrix();
   }

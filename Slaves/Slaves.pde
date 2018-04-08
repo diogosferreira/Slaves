@@ -32,6 +32,9 @@ void setup () {
 
 void draw() {
   translate(width/2, height/2);
+  background(230);
+  grelhaReferencia();
+  desenhaForaDentro();
   
   calculaVectorMouse(mouseX, mouseY);
 
@@ -56,7 +59,6 @@ void calculaVectorMouse(float mX, float mY){
 //
 
 void grelhaReferencia() {
-  println("DESENHOU GRELHA");
   int[] raios = {20000, 30000, 40000, 60000, 70000, 80000, 90000, 110000};
   for (int r : raios) {
     float diametro = 2 * map(r, 0, 110000, maxXY, minXY);
