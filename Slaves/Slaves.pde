@@ -1,7 +1,7 @@
 Table tabela1;
 HashMap<Integer, Ano> anos = new HashMap<Integer, Ano>();
-float anguloInicialGrafico = - HALF_PI + QUARTER_PI/2; //-QUARTER_PI;
-float anguloFinalGrafico = PI + HALF_PI - QUARTER_PI/2;//TWO_PI - HALF_PI;
+float anguloInicialGrafico = - HALF_PI + QUARTER_PI/2;  //-QUARTER_PI;
+float anguloFinalGrafico = PI + HALF_PI - QUARTER_PI/2; //TWO_PI - HALF_PI;
 int minXY = 150;
 int maxXY = 350;
 int ultimoAnoMostrado = 0;
@@ -28,10 +28,6 @@ void setup () {
 
 void draw(){
   translate(width/2,height/2);
-  background(230);
- // definirVectorMouse();
-  grelhaReferencia();
-  desenhaForaDentro();
   
   for (Ano ano : anos.values()){
     ano.hoverBolaT(mouseX - width/2, mouseY - height/2);
@@ -39,12 +35,6 @@ void draw(){
 }
 
 void debug() {
-  for (Ano ano : anos.values()){
-    if(ano.ano == 1566){
-      println(ano.bolaT.posX);
-      println(ano.bolaT.posY);
-    }
-  }
 }
 
 
