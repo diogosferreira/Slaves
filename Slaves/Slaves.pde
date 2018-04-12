@@ -12,7 +12,7 @@ void setup () {
 
   translate(width/2, height/2);
 
-  //size(800, 800);
+  //size(1280, 768);
   fullScreen();
   smooth();
   background(230);
@@ -107,7 +107,8 @@ void desenhaForaDentro() {
       popMatrix();
     }
 
-    ano.desenhaMortosTraficadosFD(minXY, maxXY, angulo);
+    //ano.desenhaMortosTraficadosFD(minXY, maxXY, angulo);
+    ano.desenhaTraficadosPorNacionalidade(minXY, maxXY, angulo);
     angulo += incAngulo;
   }
 }
@@ -149,7 +150,16 @@ void preencheAnos() {
     int ano = linha.getInt("ano");
     int traficados = linha.getInt("traficados");
     int mortos = linha.getInt("mortos");
-    anos.put(ano, new Ano(ano, traficados, mortos));
+    int nd = linha.getInt(3);
+    int esp = linha.getInt(4);
+    int gb = linha.getInt(5);
+    int f = linha.getInt(6);
+    int pt = linha.getInt(7);
+    int hol = linha.getInt(8);
+    int din = linha.getInt(9);
+    int eua = linha.getInt(10);
+    int out = linha.getInt(11);
+    anos.put(ano, new Ano(ano, traficados, mortos, nd, esp, gb, f, pt, hol, din, eua, out));
   }
 }
 
