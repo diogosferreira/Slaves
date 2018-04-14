@@ -4,7 +4,10 @@ class Ano {
   Bola bolaT = new Bola('t'), bolaM = new Bola('m');
   float angulo;
   PVector vector = new PVector();
+  //
   int nd, esp, gb, f, pt, hol, din, eua, out;
+  float posND, posEsp, posGB, posF, posPT, posHol, posDin, posEUA, posOut;
+  float[] posNacionalidades = {posND, posEsp, posGB, posF, posPT, posHol, posDin, posEUA, posOut};
 
   Ano(int a, int t, int m, int nd, int esp, int gb, int f, int pt, int hol, int din, int eua, int out) {
     this.ano = a;
@@ -21,13 +24,34 @@ class Ano {
     this.out = out;
   }
 
-
-
-
+  float obterPosNacionalidades(String n) {
+    switch(n){
+    case "posND":
+      return this.posND;
+    case "posEsp":
+      return this.posEsp;
+    case "posGB":
+      return this.posGB;
+    case "posF":
+      return this.posF;
+    case "posPT":
+      return this.posPT;
+    case "posHol":
+      return this.posHol;
+    case "posDin":
+      return this.posDin;
+    case "posEUA":
+      return this.posEUA;
+    case "posOut":
+      return this.posOut;
+    default:
+      return 0.0;
+    }
+  }
 
   void hoverVector(PVector mV) {
     if (mV.mag() < maxXY && mV.mag() > minXY) {
-      if (PVector.angleBetween(mV, this.vector) < 0.01) {
+      if (PVector.angleBetween(mV, this.vector) < 0.009) {
         mostraInfoTM();
         this.opacidade = 255;
       } else {
@@ -78,28 +102,19 @@ class Ano {
     popMatrix();
   }
 
-  void desenhaTraficadosPorNacionalidade(int minXY, int maxXY, float angulo) {
+  void atribuiPosicoesNacionalidadesPrincipal(int minXY, int maxXY, float angulo) {
 
     this.angulo = angulo;
 
-    float compLinhaND = map(nd, 0, 110000, maxXY, minXY);
-    //bolaM.posX = compLinhaMortos * cos(angulo);
-    //bolaM.posY = compLinhaMortos * sin(angulo);
-
-    float compLinhaEsp = map(esp, 0, 110000, maxXY, minXY);
-    //bolaT.posX = compLinhaTraficados * cos(angulo);
-    //bolaT.posY = compLinhaTraficados * sin(angulo);
-    float compLinhaGB = map(gb, 0, 110000, maxXY, minXY);
-    float compLinhaF = map(f, 0, 110000, maxXY, minXY);
-    float compLinhaPT = map(pt, 0, 110000, maxXY, minXY);
-    float compLinhaHol = map(hol, 0, 110000, maxXY, minXY);
-    float compLinhaDin = map(din, 0, 110000, maxXY, minXY);
-    float compLinhaEUA = map(eua, 0, 110000, maxXY, minXY);
-    float compLinhaOut = map(out, 0, 110000, maxXY, minXY);
-
-    int[] c = {nd, esp, gb, f, pt, hol, din, eua, out};
-    float[] comps = {compLinhaND, compLinhaEsp, compLinhaGB, compLinhaF, compLinhaPT, compLinhaHol, compLinhaDin, compLinhaEUA, compLinhaOut};
-    color[] cores = {color(255, 255, 50, opacidade), color(255, 255, 50, opacidade), color(0, 60, 230, opacidade), color(0, 250, 255, opacidade), color(0, 170, 0, opacidade), color(255, 140, 0, opacidade), color(255, 40, 40, opacidade), color(255, 140, 255, opacidade), color(255, 255, 145, opacidade)};
+    posND = map(nd, 0, 110000, maxXY, minXY);
+    posEsp = map(esp, 0, 110000, maxXY, minXY);
+    posGB = map(gb, 0, 110000, maxXY, minXY);
+    posF = map(f, 0, 110000, maxXY, minXY);
+    posPT = map(pt, 0, 110000, maxXY, minXY);
+    posHol = map(hol, 0, 110000, maxXY, minXY);
+    posDin = map(din, 0, 110000, maxXY, minXY);
+    posEUA = map(eua, 0, 110000, maxXY, minXY);
+    posOut = map(out, 0, 110000, maxXY, minXY);
 
     // CORES PAÍSES:
     //
@@ -112,50 +127,7 @@ class Ano {
     // DIN = (255,40,40)
     // EUA = (255, 140, 255)
     // OUT = (255,255,145)
-
-    pushMatrix();
-    strokeWeight(1.5);
-    float compTemp = maxXY;
-    for (int i = 0; i < comps.length; i++) {
-      fill(cores[i]);
-      stroke(cores[i]);
-      if (comps[i] != maxXY) {
-        line(compTemp * cos(angulo), compTemp * sin(angulo), comps[i] * cos(angulo), comps[i] * sin(angulo));
-        compTemp += comps[i];
-      }
-    }
-/*
-    fill(160, 160, 160, opacidade);
-    stroke(160, 160, 160, opacidade);
-    line(maxXY * cos(angulo), maxXY * sin(angulo), compLinhaND * cos(angulo), compLinhaND * sin(angulo));
-    fill(255, 255, 50, opacidade);
-    stroke(255, 255, 50, opacidade);
-    line(compLinhaND * cos(angulo), compLinhaND * sin(angulo), compLinhaEsp * cos(angulo), compLinhaEsp * sin(angulo));
-    fill(0, 60, 230, opacidade);
-    stroke(0, 60, 230, opacidade);
-    line(compLinhaEsp * cos(angulo), compLinhaEsp * sin(angulo), compLinhaGB * cos(angulo), compLinhaGB * sin(angulo));
-    fill(0, 250, 255, opacidade);
-    stroke(0, 250, 255, opacidade);
-    line(compLinhaGB * cos(angulo), compLinhaGB * sin(angulo), compLinhaF * cos(angulo), compLinhaF * sin(angulo));
-    fill(0, 170, 0, opacidade);
-    stroke(0, 170, 0, opacidade);
-    line(compLinhaF * cos(angulo), compLinhaF * sin(angulo), compLinhaPT * cos(angulo), compLinhaPT * sin(angulo));
-    fill(255, 140, 0, opacidade);
-    stroke(255, 140, 0, opacidade);
-    line(compLinhaPT * cos(angulo), compLinhaPT * sin(angulo), compLinhaHol * cos(angulo), compLinhaHol * sin(angulo));
-    fill(255, 40, 40, opacidade);
-    stroke(255, 40, 40, opacidade);
-    line(compLinhaHol * cos(angulo), compLinhaHol * sin(angulo), compLinhaDin * cos(angulo), compLinhaDin * sin(angulo));
-    fill(255, 140, 255, opacidade);
-    stroke(255, 140, 255, opacidade);
-    line(compLinhaDin * cos(angulo), compLinhaDin * sin(angulo), compLinhaEUA * cos(angulo), compLinhaEUA * sin(angulo));
-    fill(255, 255, 145, opacidade);
-    stroke(255, 255, 145, opacidade);
-    line(compLinhaEUA * cos(angulo), compLinhaEUA * sin(angulo), compLinhaOut * cos(angulo), compLinhaOut * sin(angulo));
-    */
-    popMatrix();
   }
-
 
 
 
@@ -184,38 +156,39 @@ class Ano {
   //  OLD
   //
 
+  /*
 
-
-
-
-
-
-  void hoverBolaT(int mX, int mY) {
-    float d = dist(mX, mY, this.bolaT.posX, this.bolaT.posY);
-    if (d < 5 && ultimoAnoMostrado != this.ano) {
-      mostraInfoTM();
-    }
-  }
-
-  void desenhaMortosTraficadosDF(int minXY, int maxXY, float angulo) {
-
-    float compLinhaMortos = map(mortos, 0, 110000, minXY, maxXY);
-    bolaM.posX = compLinhaMortos * cos(angulo);
-    bolaM.posY = compLinhaMortos * sin(angulo);
-
-    float compLinhaTraficados = map(traficados, 0, 110000, minXY, maxXY);
-    bolaT.posX = compLinhaTraficados * cos(angulo);
-    bolaT.posY = compLinhaTraficados * sin(angulo);
-
-    pushMatrix();
-    fill(255, 0, 0);
-    stroke(255, 0, 0);
-    bolaM.desenhaBola(opacidade);
-    line(minXY * cos(angulo), minXY * sin(angulo), compLinhaMortos * cos(angulo), compLinhaMortos * sin(angulo));
-    fill(0);
-    stroke(0);
-    bolaT.desenhaBola(opacidade);
-    line(compLinhaMortos * cos(angulo), compLinhaMortos * sin(angulo), compLinhaTraficados * cos(angulo), compLinhaTraficados * sin(angulo));
-    popMatrix();
-  }
+   
+   
+   
+   
+   void hoverBolaT(int mX, int mY) {
+   float d = dist(mX, mY, this.bolaT.posX, this.bolaT.posY);
+   if (d < 5 && ultimoAnoMostrado != this.ano) {
+   mostraInfoTM();
+   }
+   }
+   
+   void desenhaMortosTraficadosDF(int minXY, int maxXY, float angulo) {
+   
+   float compLinhaMortos = map(mortos, 0, 110000, minXY, maxXY);
+   bolaM.posX = compLinhaMortos * cos(angulo);
+   bolaM.posY = compLinhaMortos * sin(angulo);
+   
+   float compLinhaTraficados = map(traficados, 0, 110000, minXY, maxXY);
+   bolaT.posX = compLinhaTraficados * cos(angulo);
+   bolaT.posY = compLinhaTraficados * sin(angulo);
+   
+   pushMatrix();
+   fill(255, 0, 0);
+   stroke(255, 0, 0);
+   bolaM.desenhaBola(opacidade);
+   line(minXY * cos(angulo), minXY * sin(angulo), compLinhaMortos * cos(angulo), compLinhaMortos * sin(angulo));
+   fill(0);
+   stroke(0);
+   bolaT.desenhaBola(opacidade);
+   line(compLinhaMortos * cos(angulo), compLinhaMortos * sin(angulo), compLinhaTraficados * cos(angulo), compLinhaTraficados * sin(angulo));
+   popMatrix();
+   }
+   */
 }

@@ -7,6 +7,8 @@ int maxXY = 350;
 int ultimoAnoMostrado = 0;
 PVector vectorMouse = new PVector();
 PVector vectorCentro = new PVector();
+HashMap<String, Integer> posCoresNacionalidades = new HashMap<String, Integer>();
+
 
 void setup () {
 
@@ -19,6 +21,7 @@ void setup () {
 
   tabela1 = loadTable("tratamento_dados/tabela_1.csv", "header");
   preencheAnos();
+  inicializaHashNacionalidadeCor();
   vectorCentro.set(width/2, height/2);
 
   grelhaReferencia();
@@ -26,8 +29,7 @@ void setup () {
 
   for (Ano ano : anos.values()) {
     ano.inicializaVector();
-  }  
-
+  }
 }
 
 void draw() {
@@ -35,20 +37,71 @@ void draw() {
   background(230);
   grelhaReferencia();
   desenhaForaDentro();
-  
+
   calculaVectorMouse(mouseX, mouseY);
 
   for (Ano ano : anos.values()) {
     ano.hoverVector(vectorMouse);
   }
+
+  desenhaLinhasNacionalidadesPrincipal();
 }
 
+//
+//  LINHAS NACIONALIDADES
+//
+
+void desenhaLinhasNacionalidadesPrincipal() {
+
+  for (String var : posNacionalidadesVars) {
+    beginShape();
+    noFill();
+    stroke(160, 160, 160);
+    for (Ano ano : anos.values()) {
+      vertex(ano.obterPosNacionalidades(var) * cos(ano.angulo), ano.obterPosNacionalidades(var) * sin(ano.angulo));
+    }
+    endShape();
+  }
+
+
+  //ND
+  beginShape();
+  noFill();
+  stroke(160, 160, 160);
+  for (Ano ano : anos.values()) {
+    vertex(ano.posND * cos(ano.angulo), ano.posND * sin(ano.angulo));
+  }
+  endShape();
+
+  //ESPANHA
+  beginShape();
+  noFill();
+  stroke(255, 255, 50);
+  for (Ano ano : anos.values()) {
+    vertex(ano.posEsp * cos(ano.angulo), ano.posEsp * sin(ano.angulo));
+  }
+  endShape();
+}
+
+//
+//  INICIALIZA HASH MAP NACIONALIDADE, COR
+//
+
+void inicializaHashNacionalidadeCor() {
+
+  String[] posNacionalidadesVars = {"posND", "posEsp", "posGB", "posF", "posPT", "posHol", "posDin", "posEUA", "posOut"};
+  color[] coresNacionalidades = {color(160, 160, 160), color(255, 255, 50), color(0, 60, 230), color(0, 250, 255), color(0, 170, 0), color(255, 140, 0), color(255, 40, 40), color(255, 140, 255), color(255, 255, 145)};
+
+  for (int i = 0; i < posNacionalidadesVars.length; i++){
+    posCoresNacionalidades.put(posNacionalidadesVars[i], coresNacionalidades[i]);
+  }
+}
 
 //
 //  VECTOR MOUSE
 //
 
-void calculaVectorMouse(float mX, float mY){
+void calculaVectorMouse(float mX, float mY) {
   vectorMouse.set(mX, mY);
   vectorMouse.sub(vectorCentro);
 }
@@ -108,7 +161,7 @@ void desenhaForaDentro() {
     }
 
     //ano.desenhaMortosTraficadosFD(minXY, maxXY, angulo);
-    ano.desenhaTraficadosPorNacionalidade(minXY, maxXY, angulo);
+    ano.atribuiPosicoesNacionalidadesPrincipal(minXY, maxXY, angulo);
     angulo += incAngulo;
   }
 }
@@ -177,39 +230,40 @@ void preencheAnos() {
 
 
 
+/*
 
-
-//
-// OLD
-//
-
-
-
-//
-//  DESENHAR DENTRO FORA
-//
-
-void desenhaDentroFora() {
-  float angulo = anguloInicialGrafico;
-  float incAngulo = (anguloFinalGrafico - anguloInicialGrafico) / anos.size();
-
-  for (Ano ano : anos.values()) {
-    ano.desenhaMortosTraficadosDF(minXY, maxXY, angulo);
-
-    // LINHAS REFERENCIA ANOS
-    if (ano.ano == 1566 || ano.ano % 50 == 0 || ano.ano % 75 == 0 || ano.ano % 25 == 0 || ano.ano == 1866) {
-      stroke(180);
-      fill(180);
-      textSize(12);
-      textAlign(CENTER);
-      line(minXY * cos(angulo), minXY * sin(angulo), maxXY * cos(angulo), maxXY * sin(angulo));
-      pushMatrix();
-      translate(maxXY * cos(angulo), maxXY * sin(angulo));
-      rotate(angulo + HALF_PI);
-      text(ano.ano, 0, -10);
-      popMatrix();
-    }
-
-    angulo += incAngulo;
-  }
-}
+ //
+ // OLD
+ //
+ 
+ 
+ 
+ //
+ //  DESENHAR DENTRO FORA
+ //
+ 
+ void desenhaDentroFora() {
+ float angulo = anguloInicialGrafico;
+ float incAngulo = (anguloFinalGrafico - anguloInicialGrafico) / anos.size();
+ 
+ for (Ano ano : anos.values()) {
+ ano.desenhaMortosTraficadosDF(minXY, maxXY, angulo);
+ 
+ // LINHAS REFERENCIA ANOS
+ if (ano.ano == 1566 || ano.ano % 50 == 0 || ano.ano % 75 == 0 || ano.ano % 25 == 0 || ano.ano == 1866) {
+ stroke(180);
+ fill(180);
+ textSize(12);
+ textAlign(CENTER);
+ line(minXY * cos(angulo), minXY * sin(angulo), maxXY * cos(angulo), maxXY * sin(angulo));
+ pushMatrix();
+ translate(maxXY * cos(angulo), maxXY * sin(angulo));
+ rotate(angulo + HALF_PI);
+ text(ano.ano, 0, -10);
+ popMatrix();
+ }
+ 
+ angulo += incAngulo;
+ }
+ }
+ */
