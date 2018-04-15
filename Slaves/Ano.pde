@@ -7,7 +7,6 @@ class Ano {
   //
   int nd, esp, gb, f, pt, hol, din, eua, out;
   float posND, posEsp, posGB, posF, posPT, posHol, posDin, posEUA, posOut;
-  float[] posNacionalidades = {posND, posEsp, posGB, posF, posPT, posHol, posDin, posEUA, posOut};
 
   Ano(int a, int t, int m, int nd, int esp, int gb, int f, int pt, int hol, int din, int eua, int out) {
     this.ano = a;
@@ -26,23 +25,23 @@ class Ano {
 
   float obterPosNacionalidades(String n) {
     switch(n){
-    case "posND":
+    case "Sem informação":
       return this.posND;
-    case "posEsp":
+    case "Espanha / Uruguai":
       return this.posEsp;
-    case "posGB":
+    case "Grã Bretanha":
       return this.posGB;
-    case "posF":
+    case "França":
       return this.posF;
-    case "posPT":
+    case "Portugal / Brasil":
       return this.posPT;
-    case "posHol":
+    case "Holanda":
       return this.posHol;
-    case "posDin":
+    case "Dinamarca / Bálticos":
       return this.posDin;
-    case "posEUA":
+    case "E.U.A":
       return this.posEUA;
-    case "posOut":
+    case "Outros":
       return this.posOut;
     default:
       return 0.0;
@@ -71,9 +70,9 @@ class Ano {
 
   void mostraInfoTM() {
     fill(0, 255);
-    text(this.ano, 0, -20);
-    text("Nº Pessoas Traficadas: " + this.traficados, 0, 0);
-    text("Nº Pessoas Mortas / Desaparecidas : " + this.mortos, 0, 20);
+    text(this.ano, centroGraficoPrincipalX, -20);
+    text("Nº Pessoas Traficadas: " + this.traficados, centroGraficoPrincipalX, 0);
+    text("Nº Pessoas Mortas / Desaparecidas : " + this.mortos, centroGraficoPrincipalX, 20);
     ultimoAnoMostrado = this.ano;
   }
 
@@ -102,19 +101,17 @@ class Ano {
     popMatrix();
   }
 
-  void atribuiPosicoesNacionalidadesPrincipal(int minXY, int maxXY, float angulo) {
+  void atribuiPosicoesNacionalidades(int maxLinhaGraf) {
 
-    this.angulo = angulo;
-
-    posND = map(nd, 0, 110000, maxXY, minXY);
-    posEsp = map(esp, 0, 110000, maxXY, minXY);
-    posGB = map(gb, 0, 110000, maxXY, minXY);
-    posF = map(f, 0, 110000, maxXY, minXY);
-    posPT = map(pt, 0, 110000, maxXY, minXY);
-    posHol = map(hol, 0, 110000, maxXY, minXY);
-    posDin = map(din, 0, 110000, maxXY, minXY);
-    posEUA = map(eua, 0, 110000, maxXY, minXY);
-    posOut = map(out, 0, 110000, maxXY, minXY);
+    posND = map(nd, 0, 81000, 0, maxLinhaGraf);
+    posEsp = map(esp, 0, 81000, 0, maxLinhaGraf);
+    posGB = map(gb, 0, 81000, 0, maxLinhaGraf);
+    posF = map(f, 0, 81000, 0, maxLinhaGraf);
+    posPT = map(pt, 0, 81000, 0, maxLinhaGraf);
+    posHol = map(hol, 0, 81000, 0, maxLinhaGraf);
+    posDin = map(din, 0, 81000, 0, maxLinhaGraf);
+    posEUA = map(eua, 0, 81000, 0, maxLinhaGraf);
+    posOut = map(out, 0, 81000, 0, maxLinhaGraf);
 
     // CORES PAÍSES:
     //
@@ -128,67 +125,4 @@ class Ano {
     // EUA = (255, 140, 255)
     // OUT = (255,255,145)
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  //
-  //  OLD
-  //
-
-  /*
-
-   
-   
-   
-   
-   void hoverBolaT(int mX, int mY) {
-   float d = dist(mX, mY, this.bolaT.posX, this.bolaT.posY);
-   if (d < 5 && ultimoAnoMostrado != this.ano) {
-   mostraInfoTM();
-   }
-   }
-   
-   void desenhaMortosTraficadosDF(int minXY, int maxXY, float angulo) {
-   
-   float compLinhaMortos = map(mortos, 0, 110000, minXY, maxXY);
-   bolaM.posX = compLinhaMortos * cos(angulo);
-   bolaM.posY = compLinhaMortos * sin(angulo);
-   
-   float compLinhaTraficados = map(traficados, 0, 110000, minXY, maxXY);
-   bolaT.posX = compLinhaTraficados * cos(angulo);
-   bolaT.posY = compLinhaTraficados * sin(angulo);
-   
-   pushMatrix();
-   fill(255, 0, 0);
-   stroke(255, 0, 0);
-   bolaM.desenhaBola(opacidade);
-   line(minXY * cos(angulo), minXY * sin(angulo), compLinhaMortos * cos(angulo), compLinhaMortos * sin(angulo));
-   fill(0);
-   stroke(0);
-   bolaT.desenhaBola(opacidade);
-   line(compLinhaMortos * cos(angulo), compLinhaMortos * sin(angulo), compLinhaTraficados * cos(angulo), compLinhaTraficados * sin(angulo));
-   popMatrix();
-   }
-   */
 }
