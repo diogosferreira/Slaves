@@ -19,7 +19,7 @@ void setup () {
   //size(1280, 768);
   fullScreen();
   smooth();
-  background(230);
+  background(239);
 
   tabela1 = loadTable("tratamento_dados/tabela_1.csv", "header");
   preencheAnos();
@@ -41,7 +41,7 @@ void setup () {
 
 void draw() {
   translate(width/2, height/2);
-  background(230);
+  background(239);
   pushMatrix();
   translate(centroGraficoPrincipalX, 0);
   grelhaReferencia();
@@ -89,7 +89,7 @@ void inicializaHashNacionalidadeCor() {
   color[] cores = {
     color(160, 160, 160),
     color(255, 255, 50),
-    color(0, 60, 230),
+    color(0, 60, 239),
     color(0, 250, 255),
     color(0, 170, 0),
     color(255, 140, 0),
