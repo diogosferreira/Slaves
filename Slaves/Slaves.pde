@@ -1,3 +1,6 @@
+PFont Font1, Font2;
+
+
 Table tabela1;
 HashMap<Integer, Ano> anos = new HashMap<Integer, Ano>();
 int centroGraficoPrincipalX;
@@ -19,6 +22,7 @@ void setup () {
   //size(1280, 768);
   fullScreen();
   smooth();
+  pixelDensity(2);
   background(239);
 
   tabela1 = loadTable("tratamento_dados/tabela_1.csv", "header");
@@ -27,16 +31,23 @@ void setup () {
   centroGraficoPrincipalX = - width / 5;
 
   vectorCentroGraficoPrincipal.set(width/2 + centroGraficoPrincipalX, height/2);
-  
+
   pushMatrix();
   translate(centroGraficoPrincipalX, 0);
   grelhaReferencia();
   desenhaForaDentro();
   popMatrix();
-  
+
   for (Ano ano : anos.values()) {
     ano.inicializaVector();
   }
+
+
+  Font1 = createFont("Helvetica-Bold", 32);
+  Font2 = createFont("Helvetica", 32);
+
+  String[] fontList = PFont.list();
+  println(fontList);
 }
 
 void draw() {
@@ -52,9 +63,16 @@ void draw() {
   for (Ano ano : anos.values()) {
     ano.hoverVector(vectorMouse);
   }
-  
+
   desenhaLinhasNacionalidadesLado();
+  ContainerInfoDireita();
 }
+
+
+
+
+
+
 
 //
 //  LINHAS NACIONALIDADES
@@ -63,8 +81,8 @@ void draw() {
 void desenhaLinhasNacionalidadesLado() {
   int x = 150, y = -200;
   int incX = 1, incY = 60;
-  
-  for (String n : coresNacionalidades.keySet()){
+
+  for (String n : coresNacionalidades.keySet()) {
     beginShape();
     //fill(coresNacionalidades.get(n));
     noFill();
@@ -87,14 +105,14 @@ void inicializaHashNacionalidadeCor() {
 
   String[] nacionalidades = {"Sem informação", "Espanha / Uruguai", "Grã Bretanha", "França", "Portugal / Brasil", "Holanda", "Dinamarca / Bálticos", "E.U.A", "Outros"};
   color[] cores = {
-    color(160, 160, 160),
-    color(255, 255, 50),
-    color(0, 60, 239),
-    color(0, 250, 255),
-    color(0, 170, 0),
-    color(255, 140, 0),
-    color(255, 40, 40),
-    color(255, 140, 255),
+    color(160, 160, 160), 
+    color(255, 255, 50), 
+    color(0, 60, 239), 
+    color(0, 250, 255), 
+    color(0, 170, 0), 
+    color(255, 140, 0), 
+    color(255, 40, 40), 
+    color(255, 140, 255), 
     color(255, 255, 145)};
 
   for (int i = 0; i < nacionalidades.length; i++) {
@@ -219,4 +237,29 @@ void preencheAnos() {
     int out = linha.getInt(11);
     anos.put(ano, new Ano(ano, traficados, mortos, nd, esp, gb, f, pt, hol, din, eua, out));
   }
+}
+
+
+// ——————————————————
+// ContainerInfoDireita
+// ——————————————————
+
+
+void ContainerInfoDireita() {
+  stroke(221, 223, 226);
+  strokeWeight(2);
+  fill(255);
+  rect (100, (-height/2) + 150, (width/2) - 150, 200, 3);
+  fill(0);
+  //TEXTO
+  textAlign(LEFT);
+  textFont(Font1);
+  textSize(14);
+  text("Número de escravos por país", 120, (-height/2) + 175);
+  strokeWeight(1);
+  stroke(221, 223, 226);
+  line(120, (-height/2) + 185, (width/2) - 70, (-height/2)+ 185);
+  stroke(0);
+  strokeWeight(1.2);
+  line(120, (-height/2) + 185, 320, (-height/2)+ 185);
 }
