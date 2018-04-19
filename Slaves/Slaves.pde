@@ -246,20 +246,90 @@ void preencheAnos() {
 
 
 void ContainerInfoDireita() {
+
+  float rectXmin = 120;
+  float rectXmax = (width/2) - 150;
+
+  float viagensY = - height/3;
+
+  float viagensHeight = height/3.2;
+  float percentagemHeight = height/3.2;
+  float sliderHeight = height/8;
+
+  float percentagemY = viagensY + viagensHeight + 10;
+  float sliderY = percentagemY + percentagemHeight + 10;
+
+
+
+  float textY = - height/2 + 30;
+
+
+
+  //TEXTO
+  textAlign(LEFT);
+
+  textFont(Font1);
+  textSize(18);
+  fill(255, 0, 0);
+  text("982375234", rectXmin + 20, textY);
+  textFont(Font2);
+  fill(83);
+  textSize(14);
+  text("Escravos transacionados", rectXmin + 120, textY);
+
+
+  //VIAGENS
   stroke(221, 223, 226);
-  strokeWeight(2);
+  strokeWeight(1.2);
   fill(255);
-  rect (100, (-height/2) + 150, (width/2) - 150, 200, 3);
+  rect (rectXmin, viagensY, rectXmax, viagensHeight, 3);
   fill(0);
   //TEXTO
   textAlign(LEFT);
   textFont(Font1);
   textSize(14);
-  text("Número de escravos por país", 120, (-height/2) + 175);
+  text("Número de escravos traficados por país", rectXmin + 20, viagensY + 25);
   strokeWeight(1);
   stroke(221, 223, 226);
-  line(120, (-height/2) + 185, (width/2) - 70, (-height/2)+ 185);
+  line(rectXmin + 20, viagensY + 35, (rectXmin + rectXmax) - 20, viagensY + 35);
   stroke(0);
   strokeWeight(1.2);
-  line(120, (-height/2) + 185, 320, (-height/2)+ 185);
+  line(rectXmin + 20, viagensY + 35, (rectXmin + 20) + 267, viagensY + 35);
+
+
+
+  //PERCENTAGEM
+  stroke(221, 223, 226);
+  strokeWeight(1.2);
+  fill(255);
+  rect (rectXmin, percentagemY, rectXmax, percentagemHeight, 3);
+  fill(0);
+  //TEXTO
+  textAlign(LEFT);
+  textFont(Font1);
+  textSize(14);
+  text("Percentagem de mortos por ano", rectXmin + 20, percentagemY + 25);
+  strokeWeight(1);
+  stroke(221, 223, 226);
+  line(rectXmin + 20, percentagemY + 35, (rectXmin + rectXmax) - 20, percentagemY + 35);
+  stroke(0);
+  strokeWeight(1.2);
+  line(rectXmin + 20, percentagemY + 35, (rectXmin + 20) + 215, percentagemY + 35);
+
+  //SLIDER
+  stroke(221, 223, 226);
+  strokeWeight(1.2);
+  fill(255);
+  rect (rectXmin, sliderY, rectXmax, sliderHeight, 3);
+  fill(0);
+  textAlign(LEFT);
+  textFont(Font1);
+  textSize(14);
+  text("Escolha o range que deseja ver", rectXmin + 20, sliderY + 25);
+  strokeWeight(1);
+  stroke(221, 223, 226);
+  line(rectXmin + 20, sliderY + 35, (rectXmin + rectXmax) - 20, sliderY + 35);
+  stroke(0);
+  strokeWeight(1.2);
+  line(rectXmin + 20, sliderY + 35, (rectXmin + 20) + 215, sliderY + 35);
 }
