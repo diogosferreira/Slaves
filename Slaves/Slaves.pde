@@ -1,5 +1,32 @@
-PFont Font1, Font2;
+//——————SLIDER
 
+float rectXmin = 120;
+float rectXmax = (width/2) - 150;
+
+float viagensY = - height/3;
+
+float viagensHeight = height/3.2;
+float percentagemHeight = height/3.2;
+float sliderHeight = height/8;
+
+float percentagemY = viagensY + viagensHeight + 10;
+float sliderY = percentagemY + percentagemHeight + 10;
+
+float textY = - height/2 + 30;
+
+
+float slider1POS = rectXmin + 20;
+float slider2POS = (rectXmin + rectXmax) - 20;
+
+int anoSlider = 1566;
+int anoSlider2 = 1866;
+//passa a 1 vez
+boolean flag = true;
+
+
+
+//——————FONTES
+PFont Font1, Font2;
 
 Table tabela1;
 HashMap<Integer, Ano> anos = new HashMap<Integer, Ano>();
@@ -25,6 +52,7 @@ void setup () {
   pixelDensity(2);
   background(239);
 
+
   tabela1 = loadTable("tratamento_dados/tabela_1.csv", "header");
   preencheAnos();
   inicializaHashNacionalidadeCor();
@@ -42,12 +70,15 @@ void setup () {
     ano.inicializaVector();
   }
 
+  //——————FONTES
+  Font1 = createFont("Helvetica-Bold", 14);
+  Font2 = createFont("Helvetica", 14);
 
-  Font1 = createFont("Helvetica-Bold", 32);
-  Font2 = createFont("Helvetica", 32);
+  //String[] fontList = PFont.list();
+  //println(fontList);
 
-  String[] fontList = PFont.list();
-  println(fontList);
+
+  //——————SLIDER
 }
 
 void draw() {
@@ -55,6 +86,7 @@ void draw() {
   background(239);
   pushMatrix();
   translate(centroGraficoPrincipalX, 0);
+  ContainerGrafRedondo();
   grelhaReferencia();
   desenhaForaDentro();
   popMatrix();
@@ -66,9 +98,14 @@ void draw() {
 
   desenhaLinhasNacionalidadesLado();
   ContainerInfoDireita();
+  desenhaSlider();
+
+
+  //BOLAS NO HOVER
+  //fill(0, 255, 0);
+  //ellipse (rectXmin + 20, (sliderY + (sliderHeight/2) + 20) - sliderHeight/6, 10, 10 );
+  //ellipse ((rectXmin + rectXmax) - 20, (sliderY + (sliderHeight/2)+20) + sliderHeight/6, 10, 10 );
 }
-
-
 
 
 
@@ -247,21 +284,21 @@ void preencheAnos() {
 
 void ContainerInfoDireita() {
 
-  float rectXmin = 120;
-  float rectXmax = (width/2) - 150;
+  rectXmin = 150;
+  rectXmax = (width/2) - 180;
 
-  float viagensY = - height/3;
+  viagensY = - height/3;
 
-  float viagensHeight = height/3.2;
-  float percentagemHeight = height/3.2;
-  float sliderHeight = height/8;
+  viagensHeight = height/3.2;
+  percentagemHeight = height/3.2;
+  sliderHeight = height/8;
 
-  float percentagemY = viagensY + viagensHeight + 10;
-  float sliderY = percentagemY + percentagemHeight + 10;
+  percentagemY = viagensY + viagensHeight + 10;
+  sliderY = percentagemY + percentagemHeight + 10;
 
-
-
-  float textY = - height/2 + 30;
+  textY = - height/2 + 60;
+  
+  int incremento = 30;
 
 
 
@@ -269,13 +306,22 @@ void ContainerInfoDireita() {
   textAlign(LEFT);
 
   textFont(Font1);
-  textSize(18);
-  fill(255, 0, 0);
-  text("982375234", rectXmin + 20, textY);
-  textFont(Font2);
+  textSize(20);
   fill(83);
-  textSize(14);
-  text("Escravos transacionados", rectXmin + 120, textY);
+  text("10,436,395", rectXmin + 20, textY);
+  fill(255, 0, 0);
+  text("1,366,302", rectXmin + 20, textY + incremento);
+  fill(83);
+  text("33,595", rectXmin + 20, textY + (incremento*2));
+  textFont(Font2);
+  fill(112);
+  textSize(15);
+  text("Escravos transacionados", rectXmin + 140, textY);
+  text("Escravos mortos", rectXmin + 130, textY + incremento);
+  text("Viagens realizadas", rectXmin + 100, textY + (incremento*2));
+
+
+  rectMode(CORNER);
 
 
   //VIAGENS
@@ -295,7 +341,6 @@ void ContainerInfoDireita() {
   stroke(0);
   strokeWeight(1.2);
   line(rectXmin + 20, viagensY + 35, (rectXmin + 20) + 267, viagensY + 35);
-
 
 
   //PERCENTAGEM
@@ -332,4 +377,86 @@ void ContainerInfoDireita() {
   stroke(0);
   strokeWeight(1.2);
   line(rectXmin + 20, sliderY + 35, (rectXmin + 20) + 215, sliderY + 35);
+}
+
+void ContainerGrafRedondo() {
+  float widthContainer = width/1.8;
+  float heightCointainer = width/1.8;
+
+  int minX = 0 ;
+  int minY = 0;
+
+
+  stroke(221, 223, 226);
+  strokeWeight(1.2);
+  fill(255);
+  rectMode(CENTER);
+  rect (minX, minY, widthContainer, heightCointainer, 3);
+
+  fill(0);
+  textAlign(LEFT);
+  textFont(Font2);
+  text("Escravos traficados", -widthContainer/8, (heightCointainer/2 - 20) );
+  text("Escravos mortos", widthContainer/8, (heightCointainer/2 - 20) );
+  noStroke();
+  ellipseMode(CENTER);
+  ellipse( -widthContainer/8 - 15, (heightCointainer/2 - 25), 17, 17);
+
+  fill(255, 0, 0);
+  ellipse( widthContainer/8 -15, (heightCointainer/2 - 25), 17, 17);
+}
+
+
+//——————SLIDER
+
+void desenhaSlider() {
+  if (flag == true) {
+    slider1POS = rectXmin + 20;
+    slider2POS = (rectXmin + rectXmax) - 20 ;
+    flag = false;
+  }
+
+  fill(239);
+  noStroke();
+  rect (rectXmin + 20, sliderY + 70, rectXmax - 40, 7, 10);
+
+  //SLIDERS
+  fill(0);
+  ellipse (slider1POS, sliderY + 74, 15, 15);
+  ellipse (slider2POS, sliderY + 74, 15, 15);
+
+  textAlign(CENTER);
+  textSize(12);
+  //SLIDER 1 TEXTO
+  text(anoSlider, slider1POS, sliderY + 60);
+  //SLIDER 1 TEXTO
+  text(anoSlider2, slider2POS, sliderY + 60);
+
+
+  //CURSOR EM MAO
+  if (mouseX > (rectXmin + 18) + width/2 && mouseX < ((rectXmin + rectXmax) - 18) + width/2 && mouseY > ((sliderY + (sliderHeight/2) + 20) - sliderHeight/6) + height/2 && mouseY<((sliderY + (sliderHeight/2)+20) + sliderHeight/6) + height/2) {
+    cursor(HAND);
+  } else {
+    cursor(ARROW);
+  }
+}
+
+
+//CONTROLA SLIDERS E ANOS
+void mouseDragged() {
+  //CURSOR EM MAO
+  if (mouseX > (rectXmin + 18) + width/2 && mouseX < ((rectXmin + rectXmax) - 18) + width/2 && mouseY > ((sliderY + (sliderHeight/2) + 20) - sliderHeight/6) + height/2 && mouseY<((sliderY + (sliderHeight/2)+20) + sliderHeight/6) + height/2) {
+
+    //ESTA PERTO DO SLIDER 1 - MEXE
+    if (dist(mouseX, mouseY, (slider1POS + width/2), (sliderY + 74) + height/2) < 15 && dist(mouseX, mouseY, (slider2POS + width/2), (sliderY + 74) + height/2) > 30) {
+      anoSlider = int(map(mouseX, (rectXmin + 18) + width/2, ((rectXmin + rectXmax) - 20) + width/2, 1566, 1866));
+      slider1POS = mouseX - (width/2);
+    }
+
+    //ESTA PERTO DO SLIDER 2 - MEXE
+    if (dist(mouseX, mouseY, (slider2POS + width/2), (sliderY + 74) + height/2) < 15 && dist(mouseX, mouseY, (slider1POS + width/2), (sliderY + 74) + height/2) > 30) {
+      anoSlider2 = int(map(mouseX, (rectXmin + 18) + width/2, ((rectXmin + rectXmax) - 20) + width/2, 1566, 1866));
+      slider2POS = (mouseX - (width/2));
+    }
+  }
 }
