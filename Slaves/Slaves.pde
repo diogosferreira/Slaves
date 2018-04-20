@@ -297,7 +297,7 @@ void ContainerInfoDireita() {
   sliderY = percentagemY + percentagemHeight + 10;
 
   textY = - height/2 + 60;
-  
+
   int incremento = 30;
 
 
@@ -341,6 +341,31 @@ void ContainerInfoDireita() {
   stroke(0);
   strokeWeight(1.2);
   line(rectXmin + 20, viagensY + 35, (rectXmin + 20) + 267, viagensY + 35);
+  
+  
+  float textIcrement = (rectXmin + rectXmax) / 7;
+
+  //LEGENDA PAISES
+  textFont(Font2);
+  textSize(12);
+  fill(83);
+  text("Portugal", (rectXmin + 40), viagensY + 55);
+  text("Espanha", (rectXmin + 40) + textIcrement, viagensY + 55);
+  text("Holanda", (rectXmin + 40) + 2* textIcrement, viagensY + 55);
+  text("França", (rectXmin + 40) + 3* textIcrement, viagensY + 55);
+  text("Inglaterra", (rectXmin + 40) + 4* textIcrement, viagensY + 55);
+  noStroke();
+  ellipseMode(CORNER);
+  fill(88, 208, 188);
+  ellipse((rectXmin + 45) - 25, (viagensY + 55) - 11, 15, 15);
+  fill(254, 208, 64);
+  ellipse(((rectXmin + 45) + textIcrement) - 25, (viagensY + 55) - 11, 15, 15);
+  fill(84, 92, 149);
+  ellipse((rectXmin + 45) + (2 * textIcrement) - 25, (viagensY + 55) - 11, 15, 15);
+  fill(47, 179, 244);
+  ellipse((rectXmin + 45) + (3 * textIcrement) - 25, (viagensY + 55) - 11, 15, 15);
+  fill( 248, 67, 140);
+  ellipse((rectXmin + 45) + (4 * textIcrement) - 25, (viagensY + 55) - 11, 15, 15);
 
 
   //PERCENTAGEM
@@ -360,6 +385,23 @@ void ContainerInfoDireita() {
   stroke(0);
   strokeWeight(1.2);
   line(rectXmin + 20, percentagemY + 35, (rectXmin + 20) + 215, percentagemY + 35);
+
+
+  //LEGENDA PERCENTAGEM
+  textFont(Font2);
+  textSize(12);
+  fill(83);
+  text("Percentagem", (rectXmin + 40), percentagemY + 55);
+  noStroke();
+  ellipseMode(CORNER);
+  fill(12, 120, 180);
+  ellipse((rectXmin + 45) - 25, (percentagemY + 55) - 11, 15, 15);
+
+
+
+
+
+
 
   //SLIDER
   stroke(221, 223, 226);
@@ -421,6 +463,7 @@ void desenhaSlider() {
   rect (rectXmin + 20, sliderY + 70, rectXmax - 40, 7, 10);
 
   //SLIDERS
+  ellipseMode(CENTER);
   fill(0);
   ellipse (slider1POS, sliderY + 74, 15, 15);
   ellipse (slider2POS, sliderY + 74, 15, 15);
